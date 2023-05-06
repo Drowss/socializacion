@@ -103,10 +103,15 @@ class Ventana_pedido(QMainWindow):
         self.licores.addItem('Ron viejo de Caldas (Tradicional)')
         self.licores.addItem('Pilsen')
         self.licores.currentIndexChanged.connect(self.precio)
+        self.licores.currentIndexChanged.connect(self.desmarcar)
         self.licores.currentIndexChanged.connect(self.tamano)
-        #self.licores.currentIndexChanged.connect(self.check)
-        self.media.clicked.connect(self.check1)
-        self.botella.clicked.connect(self.check1)
+
+        #self.media.clicked.connect(self.opcion)
+        self.media.clicked.connect(self.check_media)
+
+        #self.botella.clicked.connect(self.opcion)
+        self.botella.clicked.connect(self.check_botella)
+
 
         self.boton = QPushButton('Añadir al carrito', self)
         self.boton.setFixedSize(300,80)
@@ -130,22 +135,18 @@ class Ventana_pedido(QMainWindow):
         self.boton.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
         self.boton.move(300,400)
 
-
-    def check1(self):
+    def opcion(self):
         if self.media.isChecked():
-            self.media.setStyleSheet("""
-                QPushButton {
-                    background-color: #12848B;
-                    border-radius: 15px;
-                    padding: 10px 20px;
-                    color: black;
-                    font-size: 16px;
-                    border: 2px solid #e9f0e5;
-                    }
-                QPushButton:hover {
-                    background-color: #0B4A4E;
-                    }
-            """)
+            self.botella.setChecked(False)
+        elif self.botella.isChecked():
+            self.media.setChecked(False)
+
+
+    def desmarcar(self):
+        self.botella.setChecked(False)
+        self.media.setChecked(False)
+
+    def check_botella(self):
         if self.botella.isChecked():
             self.botella.setStyleSheet("""
                 QPushButton {
@@ -160,6 +161,61 @@ class Ventana_pedido(QMainWindow):
                     background-color: #0B4A4E;
                     }
             """)
+            self.media.setChecked(False)
+
+        if self.media.isChecked() == False:
+            self.media.setStyleSheet("""
+                QPushButton {
+                    background-color: #5EFF42;
+                    border-radius: 15px;
+                    padding: 10px 20px;
+                    color: black;
+                    font-size: 16px;
+                    border: 2px solid #e9f0e5;
+                    }
+                QPushButton:hover {
+                    background-color: #4BC535;
+                    }
+                QPushButton:pressed {
+                        background-color: #39A426;
+
+                    }
+            """)
+        if self.botella.isChecked() == False:
+            self.botella.setStyleSheet("""
+                QPushButton {
+                    background-color: #5EFF42;
+                    border-radius: 15px;
+                    padding: 10px 20px;
+                    color: black;
+                    font-size: 16px;
+                    border: 2px solid #e9f0e5;
+                    }
+                QPushButton:hover {
+                    background-color: #4BC535;
+                    }
+                QPushButton:pressed {
+                        background-color: #39A426;
+
+                    }
+            """)
+    def check_media(self):
+        if self.media.isChecked():
+            self.media.setStyleSheet("""
+                QPushButton {
+                    background-color: #12848B;
+                    border-radius: 15px;
+                    padding: 10px 20px;
+                    color: black;
+                    font-size: 16px;
+                    border: 2px solid #e9f0e5;
+                    }
+                QPushButton:hover {
+                    background-color: #0B4A4E;
+                    }
+            """)
+            self.botella.setChecked(False)
+
         if self.media.isChecked() == False:
             self.media.setStyleSheet("""
                 QPushButton {
@@ -251,8 +307,7 @@ class Ventana_pedido(QMainWindow):
                         }
                 """)
                 self.botella.setEnabled(False)
-                self.media.setCheckable(False)
-                self.botella.setCheckable(False)
+
             case 1:
                 self.media.setStyleSheet("""
                             QPushButton {
@@ -368,8 +423,7 @@ class Ventana_pedido(QMainWindow):
                                 }
                             """)
                 self.botella.setEnabled(False)
-                self.media.setCheckable(False)
-                self.botella.setCheckable(False)
+
             case 4:
                 self.media.setStyleSheet("""
                             QPushButton {
@@ -446,8 +500,9 @@ class Ventana_pedido(QMainWindow):
                                 }
                             """)
                 self.botella.setEnabled(False)
-                self.media.setCheckable(False)
-                self.botella.setCheckable(False)
+
+
+
 
 
 
