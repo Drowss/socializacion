@@ -13,7 +13,6 @@ class Ventana1(QMainWindow):
 
     def __init__(self, parent=None):
         super(Ventana1, self).__init__(parent=parent)
-
         self.setWindowTitle("Licor Express")
 
         self.setStyleSheet("background-color:#f7dfd4;")
