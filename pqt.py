@@ -10,7 +10,6 @@ from dialogo import dialogo
 ##
 
 class Ventana1(QMainWindow):
-
     def __init__(self, parent=None):
         super(Ventana1, self).__init__(parent=parent)
         self.setWindowTitle("Licor Express")
@@ -42,7 +41,7 @@ class Ventana1(QMainWindow):
         self.boton = QPushButton("Registrarse", self)
         self.boton.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
         self.boton.setFixedSize(140, 40)
-        self.boton.clicked.connect(self.registro)
+        self.user2 = self.boton.clicked.connect(self.registro)
         self.boton.setStyleSheet("""
             QPushButton {
                 background-color: #e9f0e5;
@@ -140,6 +139,7 @@ class Ventana1(QMainWindow):
 
     def entrar(self):
         archivo = open('usuarios.txt')
+        validacion = True
         lista = []
         for usuario in archivo:
             usuario.strip()
@@ -148,12 +148,18 @@ class Ventana1(QMainWindow):
 
         for datos in lista:
             if datos[3] == self.user1.text() and datos[1] == self.pwd1.text():
+                encargado = open('encargado.txt','w')
+                encargado.write(str(datos))
+                encargado.close()
                 self.hide()
                 self.entrar = Ventana_pedido()
                 self.entrar.show()
-            else:
-                dialogo('Usuario y/o contraseña inválidos, asegúrese de introducir\ncorrectamente sus datos.')
+                validacion = False
 
+
+        if validacion:
+            dialogo('Usuario y/o contraseña inválidos, asegúrese de introducir\ncorrectamente sus datos.')
+        archivo.close()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

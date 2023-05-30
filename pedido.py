@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QDesktopWidget, QMainWindow, QToolBar, QAction, QLab
 class Ventana_pedido(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Toma de pedido")
+        self.setWindowTitle('Toma de pedido')
 
         self.setStyleSheet("background-color:white;")
 
@@ -107,11 +107,6 @@ class Ventana_pedido(QMainWindow):
         self.licores.move(70, 190)
         self.licores.hide()
         self.licores.addItem('Seleccione su producto')
-        #self.licores.addItem('Aguardiente (Tapa roja)')
-        #self.licores.addItem('Aguardiente (Tapa azul)')
-        #self.licores.addItem('Aguila')
-        #self.licores.addItem('Ron viejo de Caldas (Tradicional)')
-        #self.licores.addItem('Pilsen')
         self.licores.currentIndexChanged.connect(self.precio)
         self.licores.currentIndexChanged.connect(self.desmarcar)
         self.licores.currentIndexChanged.connect(self.tamano)

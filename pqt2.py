@@ -2,7 +2,6 @@ from PyQt5.QtGui import QIcon, QPixmap, QFont
 from PyQt5.QtWidgets import QMainWindow, QWidget, QDesktopWidget, QLabel, QLineEdit, QPushButton
 from dialogo import dialogo
 
-
 class Registro_usuario(QMainWindow):
     def __init__(self, anterior):
         super().__init__()
@@ -230,7 +229,7 @@ class Registro_usuario(QMainWindow):
         elif not self.cc1.text().isnumeric() or not self.numero1.text().isnumeric():
             dialogo('El número celular y la cédula deben ser numéricas, revisa nuevamente.')
 
-        elif not self.nombreCompleto.text().isalpha():
+        elif not self.nombreCompleto.text().replace(' ','').isalpha():
             dialogo('El nombre debe ser escrito en letras, revisa nuevamente.')
 
         else:
