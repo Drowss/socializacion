@@ -1,6 +1,7 @@
 from PyQt5.QtGui import QIcon, QPixmap, QFont
 from PyQt5.QtWidgets import QDesktopWidget, QMainWindow, QToolBar, QAction, QLabel, QComboBox, QPushButton
-
+from persona_encargadx import persona_a_cargo
+from crear_producto import creacion_producto
 
 class Ventana_pedido(QMainWindow):
     def __init__(self):
@@ -35,6 +36,7 @@ class Ventana_pedido(QMainWindow):
         self.bar.setMovable(False)
         self.perfil = QAction(QIcon('imagenes/user.png'), 'Perfil', self)
         self.carrito = QAction(QIcon('imagenes/carrito.png'), 'Carrito', self)
+        self.perfil.triggered.connect(self.encargadx)
         self.bar.addAction(self.perfil)
         self.bar.addAction(self.carrito)
         self.addToolBar(self.bar)
@@ -140,6 +142,59 @@ class Ventana_pedido(QMainWindow):
         self.boton.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
         self.boton.move(300,400)
 
+        self.creacion = QPushButton('Crear producto', self)
+        self.creacion.setFixedSize(170, 50)
+        self.creacion.setStyleSheet("""
+                    QPushButton {
+                        background-color: #5EFF42;
+                        border-radius: 15px;
+                        padding: 10px 20px;
+                        color: black;
+                        font-size: 16px;
+                        border: 2px solid #e9f0e5;
+                        }
+                    QPushButton:hover {
+                        background-color: #4BC535;
+                        }
+                    QPushButton:pressed {
+                            background-color: #39A426;
+
+                        }
+                    """)
+        self.creacion.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
+        self.creacion.clicked.connect(self.crear)
+        self.creacion.move(260, 500)
+
+        self.eliminacion = QPushButton('Eliminar producto', self)
+        self.eliminacion.setFixedSize(170, 50)
+        self.eliminacion.setStyleSheet("""
+                    QPushButton {
+                        background-color: #5EFF42;
+                        border-radius: 15px;
+                        padding: 10px 20px;
+                        color: black;
+                        font-size: 16px;
+                        border: 2px solid #e9f0e5;
+                        }
+                    QPushButton:hover {
+                        background-color: #4BC535;
+                        }
+                    QPushButton:pressed {
+                            background-color: #39A426;
+
+                        }
+                    """)
+        self.eliminacion.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
+        self.eliminacion.move(460, 500)
+
+
+    def crear(self):
+        self.crea = creacion_producto()
+        self.crea.show()
+
+    def encargadx(self):
+        self.a_cargo = persona_a_cargo()
+        self.a_cargo.show()
 
 
     def categorias(self):
