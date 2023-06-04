@@ -32,7 +32,6 @@ class persona_a_cargo(QMainWindow):
 
         datos_encargado = open('encargado.txt')
         usuario_datos = eval(datos_encargado.read())
-        print(usuario_datos)
         self.nombre_encargado = QLabel(f"Nombre del encargado: {usuario_datos[0].replace('_', ' ')}", self)
         self.nombre_encargado.setStyleSheet("background-color:transparent; color:#fff0b1;")
         self.nombre_encargado.setFont(QFont("Bahnschrift SemiLight SemiConde", 15))

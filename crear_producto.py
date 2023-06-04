@@ -167,8 +167,9 @@ class creacion_producto(QMainWindow):
 
 
         if validar:
-            producto = open(f'productos_tienda/{self.nombre_producto1.text().replace(" ", "_")}', 'w')
-            info_producto_nuevo = f'{self.categoria.currentText()} {self.nombre_producto1.text().replace(" ", "_")} {self.cantidades_producto1.value()} {self.precio_producto1.text()} {self.tamano_producto1.currentText().replace(" ", "_")}'
+            producto = open(f'productos_tienda/{self.nombre_producto1.text().replace(" ", "_")}.txt', 'w')
+            info_producto_nuevo = f'{self.categoria.currentText().replace(" ", "_")} {self.nombre_producto1.text().replace(" ", "_")} {self.cantidades_producto1.value()} {self.precio_producto1.text()} {self.tamano_producto1.currentText().replace(" ", "_")}'
             producto.write(str(info_producto_nuevo.split()))
             producto.close()
             self.close()
+

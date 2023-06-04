@@ -142,7 +142,6 @@ class Ventana1(QMainWindow):
         validacion = True
         lista = []
         for usuario in archivo:
-            usuario.strip()
             valor = usuario.replace(';', ' ').split()
             lista.append(valor)
 

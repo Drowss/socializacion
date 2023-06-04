@@ -2,10 +2,47 @@ from PyQt5.QtGui import QIcon, QPixmap, QFont
 from PyQt5.QtWidgets import QDesktopWidget, QMainWindow, QToolBar, QAction, QLabel, QComboBox, QPushButton
 from persona_encargadx import persona_a_cargo
 from crear_producto import creacion_producto
-
+from pathlib import Path
+from modificacion_producto import Modificar
 class Ventana_pedido(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.disabled = """
+                        QPushButton {
+                            background-color: #3A383E;
+                            border-radius: 15px;
+                            padding: 10px 20px;
+                            color: black;
+                            font-size: 16px;
+                            border: 2px solid #e9f0e5;
+                            }
+                        QPushButton:hover {
+                            background-color: #4BC535;
+                            }
+                        QPushButton:pressed {
+                                background-color: #39A426;
+
+                            }
+                        """
+
+        self.enabled = """
+                            QPushButton {
+                                background-color: #5EFF42;
+                                border-radius: 15px;
+                                padding: 10px 20px;
+                                color: black;
+                                font-size: 16px;
+                                border: 2px solid #e9f0e5;
+                                }
+                            QPushButton:hover {
+                                background-color: #4BC535;
+                                }
+                            QPushButton:pressed {
+                                    background-color: #39A426;
+
+                                }
+                            """
+
         self.setWindowTitle('Toma de pedido')
 
         self.setStyleSheet("background-color:white;")
@@ -49,143 +86,30 @@ class Ventana_pedido(QMainWindow):
         self.precios.setFont(QFont("Bahnschrift SemiLight SemiConde", 15))
         self.precios.move(300, 110)
 
-        self.media = QPushButton('375ml (Media)', self)
-        self.media.setEnabled(False)
-        self.media.setFixedSize(160, 40)
-        self.media.setStyleSheet("""
-                    QPushButton {
-                        background-color: #3A383E;
-                        border-radius: 15px;
-                        padding: 10px 20px;
-                        color: black;
-                        font-size: 16px;
-                        border: 2px solid #e9f0e5;
-                        }
-                    QPushButton:hover {
-                        background-color: #e5d6d7;
-                        }
-                    QPushButton:pressed {
-                            background-color: #fff0b1;
-
-                        }
-                    """)
-        self.media.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
-        self.media.move(300, 200)
-
-        self.botella = QPushButton('750ml (Botella)', self)
-        self.botella.setFixedSize(160, 40)
-        self.botella.setEnabled(False)
-        self.botella.setStyleSheet("""
-                    QPushButton {
-                        background-color: #3A383E;
-                        border-radius: 15px;
-                        padding: 10px 20px;
-                        color: black;
-                        font-size: 16px;
-                        border: 2px solid #e9f0e5;
-                        }
-                    QPushButton:hover {
-                        background-color: #e5d6d7;
-                        }
-                    QPushButton:pressed {
-                            background-color: #fff0b1;
-
-                        }
-                    """)
-        self.botella.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
-        self.botella.move(470, 200)
-
-        self.categoria = QComboBox(self)
-        self.categoria.setFixedWidth(200)
-        self.categoria.move(70, 100)
-        self.categoria.addItem('Seleccione categoría')
-        self.categoria.addItem('Cerveza')
-        self.categoria.addItem('Alcohol tradicional')
-        self.categoria.addItem('Vodka')
-        self.categoria.currentIndexChanged.connect(self.categorias)
-
-        self.licores = QComboBox(self)
-        self.licores.setFixedWidth(200)
-        self.licores.move(70, 190)
-        self.licores.hide()
-        self.licores.addItem('Seleccione su producto')
-        self.licores.currentIndexChanged.connect(self.precio)
-        self.licores.currentIndexChanged.connect(self.desmarcar)
-        self.licores.currentIndexChanged.connect(self.tamano)
-
-        #self.media.clicked.connect(self.opcion)
-        self.media.clicked.connect(self.check_media)
-
-        #self.botella.clicked.connect(self.opcion)
-        self.botella.clicked.connect(self.check_botella)
-
+        self.productos_visuales()
 
         self.boton = QPushButton('Añadir al carrito', self)
         self.boton.setFixedSize(300,80)
-        self.boton.setStyleSheet("""
-            QPushButton {
-                background-color: #5EFF42;
-                border-radius: 15px;
-                padding: 10px 20px;
-                color: black;
-                font-size: 16px;
-                border: 2px solid #e9f0e5;
-                }
-            QPushButton:hover {
-                background-color: #4BC535;
-                }
-            QPushButton:pressed {
-                    background-color: #39A426;
-
-                }
-            """)
+        self.boton.setStyleSheet(self.disabled)
+        self.boton.setEnabled(False)
         self.boton.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
         self.boton.move(300,400)
 
         self.creacion = QPushButton('Crear producto', self)
         self.creacion.setFixedSize(170, 50)
-        self.creacion.setStyleSheet("""
-                    QPushButton {
-                        background-color: #5EFF42;
-                        border-radius: 15px;
-                        padding: 10px 20px;
-                        color: black;
-                        font-size: 16px;
-                        border: 2px solid #e9f0e5;
-                        }
-                    QPushButton:hover {
-                        background-color: #4BC535;
-                        }
-                    QPushButton:pressed {
-                            background-color: #39A426;
-
-                        }
-                    """)
+        self.creacion.setStyleSheet(self.enabled)
         self.creacion.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
         self.creacion.clicked.connect(self.crear)
         self.creacion.move(260, 500)
 
-        self.eliminacion = QPushButton('Eliminar producto', self)
-        self.eliminacion.setFixedSize(170, 50)
-        self.eliminacion.setStyleSheet("""
-                    QPushButton {
-                        background-color: #5EFF42;
-                        border-radius: 15px;
-                        padding: 10px 20px;
-                        color: black;
-                        font-size: 16px;
-                        border: 2px solid #e9f0e5;
-                        }
-                    QPushButton:hover {
-                        background-color: #4BC535;
-                        }
-                    QPushButton:pressed {
-                            background-color: #39A426;
+        self.modificar = QPushButton('Modificar producto', self)
+        self.modificar.setFixedSize(170, 50)
+        self.modificar.setStyleSheet(self.enabled)
+        self.modificar.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
+        self.modificar.clicked.connect(self.modificar_producto)
+        self.modificar.move(460, 500)
 
-                        }
-                    """)
-        self.eliminacion.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
-        self.eliminacion.move(460, 500)
+        self.productos.currentIndexChanged.connect(self.precio)
 
 
     def crear(self):
@@ -195,75 +119,6 @@ class Ventana_pedido(QMainWindow):
     def encargadx(self):
         self.a_cargo = persona_a_cargo()
         self.a_cargo.show()
-
-
-    def categorias(self):
-        if self.categoria.currentText() == 'Seleccione categoría':
-            self.boton.setStyleSheet("""
-                            QPushButton {
-                                background-color: #3A383E;
-                                border-radius: 15px;
-                                padding: 10px 20px;
-                                color: black;
-                                font-size: 16px;
-                                border: 2px solid #e9f0e5;
-                                }
-                            QPushButton:hover {
-                                background-color: #4BC535;
-                                }
-                            QPushButton:pressed {
-                                    background-color: #39A426;
-
-                                }
-                            """)
-            self.boton.setEnabled(False)
-        else:
-            self.boton.setStyleSheet("""
-                            QPushButton {
-                                background-color: #5EFF42;
-                                border-radius: 15px;
-                                padding: 10px 20px;
-                                color: black;
-                                font-size: 16px;
-                                border: 2px solid #e9f0e5;
-                                }
-                            QPushButton:hover {
-                                background-color: #4BC535;
-                                }
-                            QPushButton:pressed {
-                                    background-color: #39A426;
-
-                                }
-                            """)
-            self.boton.setEnabled(True)
-
-        match self.categoria.currentText():
-            case 'Seleccione categoría':
-                self.licores.hide()
-                self.precios.setText(f" Selecciona una categoría")
-
-            case 'Cerveza':
-                self.licores.show()
-                self.licores.clear()
-                self.licores.addItem('Aguila')
-                self.licores.addItem('Pilsen')
-                self.boton.show()
-
-            case 'Alcohol tradicional':
-                self.licores.show()
-                self.licores.clear()
-                self.licores.addItem('Aguardiente (Tapa roja)')
-                self.licores.addItem('Aguardiente (Tapa azul)')
-                self.licores.addItem('Ron viejo de Caldas (Tradicional)')
-                self.boton.show()
-
-            case 'Vodka':
-                self.licores.show()
-                self.licores.clear()
-                self.licores.addItem('Absolut Vodka 1 Litro')
-                self.licores.addItem('Smirnoff Vodka 700ml')
-                self.boton.show()
-
 
     def opcion(self):
         if self.media.isChecked():
@@ -277,269 +132,49 @@ class Ventana_pedido(QMainWindow):
         self.media.setChecked(False)
 
     def check_botella(self):
-        if self.botella.isChecked():
-            self.botella.setStyleSheet("""
-                QPushButton {
-                    background-color: #12848B;
-                    border-radius: 15px;
-                    padding: 10px 20px;
-                    color: black;
-                    font-size: 16px;
-                    border: 2px solid #e9f0e5;
-                    }
-                QPushButton:hover {
-                    background-color: #0B4A4E;
-                    }
-            """)
-            self.media.setChecked(False)
-
-        if self.media.isChecked() == False:
-            self.media.setStyleSheet("""
-                QPushButton {
-                    background-color: #5EFF42;
-                    border-radius: 15px;
-                    padding: 10px 20px;
-                    color: black;
-                    font-size: 16px;
-                    border: 2px solid #e9f0e5;
-                    }
-                QPushButton:hover {
-                    background-color: #4BC535;
-                    }
-                QPushButton:pressed {
-                        background-color: #39A426;
-
-                    }
-            """)
-        if self.botella.isChecked() == False:
-            self.botella.setStyleSheet("""
-                QPushButton {
-                    background-color: #5EFF42;
-                    border-radius: 15px;
-                    padding: 10px 20px;
-                    color: black;
-                    font-size: 16px;
-                    border: 2px solid #e9f0e5;
-                    }
-                QPushButton:hover {
-                    background-color: #4BC535;
-                    }
-                QPushButton:pressed {
-                        background-color: #39A426;
-
-                    }
-            """)
+        pass
     def check_media(self):
-        if self.media.isChecked():
-            self.media.setStyleSheet("""
-                QPushButton {
-                    background-color: #12848B;
-                    border-radius: 15px;
-                    padding: 10px 20px;
-                    color: black;
-                    font-size: 16px;
-                    border: 2px solid #e9f0e5;
-                    }
-                QPushButton:hover {
-                    background-color: #0B4A4E;
-                    }
-            """)
-            self.botella.setChecked(False)
-
-        if self.media.isChecked() == False:
-            self.media.setStyleSheet("""
-                QPushButton {
-                    background-color: #5EFF42;
-                    border-radius: 15px;
-                    padding: 10px 20px;
-                    color: black;
-                    font-size: 16px;
-                    border: 2px solid #e9f0e5;
-                    }
-                QPushButton:hover {
-                    background-color: #4BC535;
-                    }
-                QPushButton:pressed {
-                        background-color: #39A426;
-
-                    }
-            """)
-        if self.botella.isChecked() == False:
-            self.botella.setStyleSheet("""
-                QPushButton {
-                    background-color: #5EFF42;
-                    border-radius: 15px;
-                    padding: 10px 20px;
-                    color: black;
-                    font-size: 16px;
-                    border: 2px solid #e9f0e5;
-                    }
-                QPushButton:hover {
-                    background-color: #4BC535;
-                    }
-                QPushButton:pressed {
-                        background-color: #39A426;
-
-                    }
-            """)
+        pass
 
     def precio(self):
-        match self.licores.currentText():
-            case 'Aguardiente (Tapa roja)':
-                self.precios.setText(f' Precio de {self.licores.currentText()}\n 375 ml 21.000$\n 750 ml 39.000$')
-                self.botella.show()
-                self.media.show()
-            case 'Aguardiente (Tapa azul)':
-                self.precios.setText(f' Precio de {self.licores.currentText()}\n 375 ml 23.000$\n 750 ml 42.000$')
-                self.botella.show()
-                self.media.show()
-            case 'Aguila':
-                self.precios.setText(f' Precio de cerveza {self.licores.currentText()}\n 3500 c/u')
-                self.botella.hide()
-                self.media.hide()
-            case 'Ron viejo de Caldas (Tradicional)':
-                self.precios.setText(f' Precio de {self.licores.currentText()}\n 375 ml 26.000$\n 750 ml 48.000$')
-                self.botella.show()
-                self.media.show()
-            case 'Pilsen':
-                self.precios.setText(f' Precio de cerveza {self.licores.currentText()}\n 3500 c/u')
-                self.botella.hide()
-                self.media.hide()
-            case 'Absolut Vodka 1 Litro':
-                self.precios.setText(f' Precio de {self.licores.currentText()}\n 1 Litro 125.900$')
-                self.media.hide()
-                self.botella.hide()
-            case 'Smirnoff Vodka 700ml':
-                self.precios.setText(f' Precio de {self.licores.currentText()}\n 700 ml 107.900$')
-                self.botella.hide()
-                self.media.hide()
+        if self.productos.currentText() == 'Selecciona un producto':
+            self.precios.setText('Selecciona un producto')
+            self.boton.setEnabled(False)
+            self.boton.setStyleSheet(self.disabled)
+        elif not self.productos.currentText() == 'Selecciona un producto':
+            archivo = open('productos_tienda/' + self.productos.currentText().replace("\n","").replace(" ", "_") + '.txt')
+            lista_archivo = eval(archivo.read())
+            self.precios.setText(f' Precio de {self.productos.currentText()} {lista_archivo[4].replace("_"," ")}\n {lista_archivo[3]} pesos, {lista_archivo[2]} unidad/es restantes')
+            archivo.close()
+            self.boton.setEnabled(True)
+            self.boton.setStyleSheet(self.enabled)
 
 
     def tamano(self):
-        match self.licores.currentText():
-            case 'Aguardiente (Tapa roja)':
-                self.media.setStyleSheet("""
-                            QPushButton {
-                                background-color: #5EFF42;
-                                border-radius: 15px;
-                                padding: 10px 20px;
-                                color: black;
-                                font-size: 16px;
-                                border: 2px solid #e9f0e5;
-                                }
-                            QPushButton:hover {
-                                background-color: #4BC535;
-                                }
-                            QPushButton:pressed {
-                                    background-color: #39A426;
-
-                                }
-                            """)
-                self.media.setEnabled(True)
-                self.botella.setStyleSheet("""
-                            QPushButton {
-                                background-color: #5EFF42;
-                                border-radius: 15px;
-                                padding: 10px 20px;
-                                color: black;
-                                font-size: 16px;
-                                border: 2px solid #e9f0e5;
-                                }
-                            QPushButton:hover {
-                                background-color: #4BC535;
-                                }
-                            QPushButton:pressed {
-                                    background-color: #39A426;
-
-                                }
-                            """)
-                self.botella.setEnabled(True)
-                self.botella.setCheckable(True)
-                self.media.setCheckable(True)
-            case 'Aguardiente (Tapa azul)':
-                self.media.setStyleSheet("""
-                            QPushButton {
-                                background-color: #5EFF42;
-                                border-radius: 15px;
-                                padding: 10px 20px;
-                                color: black;
-                                font-size: 16px;
-                                border: 2px solid #e9f0e5;
-                                }
-                            QPushButton:hover {
-                                background-color: #4BC535;
-                                }
-                            QPushButton:pressed {
-                                    background-color: #39A426;
-
-                                }
-                            """)
-                self.media.setEnabled(True)
-                self.botella.setStyleSheet("""
-                            QPushButton {
-                                background-color: #5EFF42;
-                                border-radius: 15px;
-                                padding: 10px 20px;
-                                color: black;
-                                font-size: 16px;
-                                border: 2px solid #e9f0e5;
-                                }
-                            QPushButton:hover {
-                                background-color: #4BC535;
-                                }
-                            QPushButton:pressed {
-                                    background-color: #39A426;
-
-                                }
-                            """)
-                self.botella.setEnabled(True)
-                self.botella.setCheckable(True)
-                self.media.setCheckable(True)
-
-            case 'Ron viejo de Caldas (Tradicional)':
-                self.media.setStyleSheet("""
-                            QPushButton {
-                                background-color: #5EFF42;
-                                border-radius: 15px;
-                                padding: 10px 20px;
-                                color: black;
-                                font-size: 16px;
-                                border: 2px solid #e9f0e5;
-                                }
-                            QPushButton:hover {
-                                background-color: #4BC535;
-                                }
-                            QPushButton:pressed {
-                                    background-color: #39A426;
-
-                                }
-                            """)
-                self.media.setEnabled(True)
-                self.botella.setStyleSheet("""
-                            QPushButton {
-                                background-color: #5EFF42;
-                                border-radius: 15px;
-                                padding: 10px 20px;
-                                color: black;
-                                font-size: 16px;
-                                border: 2px solid #e9f0e5;
-                                }
-                            QPushButton:hover {
-                                background-color: #4BC535;
-                                }
-                            QPushButton:pressed {
-                                    background-color: #39A426;
-
-                                }
-                            """)
-                self.botella.setEnabled(True)
-                self.botella.setCheckable(True)
-                self.media.setCheckable(True)
+        pass
 
 
 
+    def modificar_producto(self):
+        self.modificacion = Modificar()
+        self.modificacion.show()
 
+    def productos_visuales(self):
+        self.productos = QComboBox(self)
+        self.productos.addItem('Selecciona un producto')
+        productos = open('productos.txt','w')
+        for producto in Path('productos_tienda').glob('**/*.txt'):
+            producto_str = str(producto)
+            producto_str2 = producto_str.replace("productos_tienda\\","").replace(".txt","")
+            productos.write(f'{producto_str2}\n')
+        productos.close()
+        self.productividad = open('productos.txt')
 
+        for producto in self.productividad:
+            producto.strip()
+            self.productos.addItem(producto.replace('_',' '))
 
+        self.productividad.close()
 
-
+        self.productos.setFixedWidth(200)
+        self.productos.move(70,100)
