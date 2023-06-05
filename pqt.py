@@ -157,7 +157,7 @@ class Ventana1(QMainWindow):
 
 
         if validacion:
-            dialogo('Usuario y/o contraseña inválidos, asegúrese de introducir\ncorrectamente sus datos.')
+            dialogo('Usuario y/o contraseña inválidos, asegúrese de introducir\ncorrectamente sus datos.', 'no')
         archivo.close()
 
 if __name__ == '__main__':

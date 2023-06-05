@@ -224,13 +224,13 @@ class Registro_usuario(QMainWindow):
 
     def accion_botonRegistrar(self):
         if self.nombreCompleto.text() == '' or self.pwd1.text() == '' or self.email1.text() == '' or self.cc1.text() == '' or self.numero1.text() == '' or self.Direccion1.text() == '':
-            dialogo('Has dejado espacios en blanco, por favor revisa nuevamente.')
+            dialogo('Has dejado espacios en blanco, por favor revisa nuevamente.', 'no')
 
         elif not self.cc1.text().isnumeric() or not self.numero1.text().isnumeric():
-            dialogo('El número celular y la cédula deben ser numéricas, revisa nuevamente.')
+            dialogo('El número celular y la cédula deben ser numéricas, revisa nuevamente.', 'no')
 
         elif not self.nombreCompleto.text().replace(' ','').isalpha():
-            dialogo('El nombre debe ser escrito en letras, revisa nuevamente.')
+            dialogo('El nombre debe ser escrito en letras, revisa nuevamente.', 'no')
 
         else:
             archivo = open('usuarios.txt', 'a')

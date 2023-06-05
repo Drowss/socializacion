@@ -158,11 +158,11 @@ class creacion_producto(QMainWindow):
     def creacion_confirmada(self):
         validar = True
         if self.nombre_producto1.text() == '' or self.precio_producto1.text() == '':
-            dialogo('No ingresaste todos los datos requeridos.')
+            dialogo('No ingresaste todos los datos requeridos.', 'no')
             validar = False
 
         elif not self.nombre_producto1.text().replace(' ', '').isalpha() or not self.precio_producto1.text().replace('.', '').isnumeric():
-            dialogo('Los nombres deben ser escritos en carácteres y/o los precios numéricos')
+            dialogo('Los nombres deben ser escritos en carácteres y/o los precios numéricos', 'no')
             validar = False
 
 

@@ -1,9 +1,13 @@
+import os
+
+from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon, QPixmap, QFont
 from PyQt5.QtWidgets import QDesktopWidget, QMainWindow, QToolBar, QAction, QLabel, QComboBox, QPushButton
 from persona_encargadx import persona_a_cargo
 from crear_producto import creacion_producto
 from pathlib import Path
 from modificacion_producto import Modificar
+from eliminar_productos import Eliminar
 class Ventana_pedido(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -100,14 +104,21 @@ class Ventana_pedido(QMainWindow):
         self.creacion.setStyleSheet(self.enabled)
         self.creacion.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
         self.creacion.clicked.connect(self.crear)
-        self.creacion.move(260, 500)
+        self.creacion.move(60, 500)
 
         self.modificar = QPushButton('Modificar producto', self)
         self.modificar.setFixedSize(170, 50)
         self.modificar.setStyleSheet(self.enabled)
         self.modificar.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
         self.modificar.clicked.connect(self.modificar_producto)
-        self.modificar.move(460, 500)
+        self.modificar.move(260, 500)
+
+        self.eliminar_plano = QPushButton('Eliminar producto', self)
+        self.eliminar_plano.setFixedSize(170, 50)
+        self.eliminar_plano.setStyleSheet(self.enabled)
+        self.eliminar_plano.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
+        self.eliminar_plano.clicked.connect(self.eliminar_producto)
+        self.eliminar_plano.move(460, 500)
 
         self.productos.currentIndexChanged.connect(self.precio)
 
@@ -178,3 +189,7 @@ class Ventana_pedido(QMainWindow):
 
         self.productos.setFixedWidth(200)
         self.productos.move(70,100)
+
+    def eliminar_producto(self):
+        self.eliminacion = Eliminar()
+        self.eliminacion.show()
