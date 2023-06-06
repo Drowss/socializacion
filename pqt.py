@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QMainWindow, QDesktopWidget, QWidget, QApplication, 
     QGridLayout, QButtonGroup, QPushButton, QLineEdit, QSystemTrayIcon, QMessageBox
 from dialogo import dialogo
 
+
 ##
 
 class Ventana1(QMainWindow):
@@ -105,6 +106,7 @@ class Ventana1(QMainWindow):
                 background-color:#B0C4DE;
             }
             """)
+        self.user1.returnPressed.connect(self.entrar)
         self.user1.setFixedWidth(160)
         self.user1.move(216, 120)
 
@@ -129,6 +131,7 @@ class Ventana1(QMainWindow):
                 background-color:#B0C4DE;
             }
             """)
+        self.pwd1.returnPressed.connect(self.entrar)
         self.pwd1.setFixedWidth(160)
         self.pwd1.move(216, 220)
 

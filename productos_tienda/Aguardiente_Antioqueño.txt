@@ -1,1 +1,0 @@
-['Alcohol_tradicional', 'Aguardiente_Antioqueño', '6', '42.900', '750_ml_(Botella)']

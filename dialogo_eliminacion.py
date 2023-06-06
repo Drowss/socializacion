@@ -4,7 +4,7 @@ import os
 
 def dialogo_eliminar(mensaje):
     dialogo = QMessageBox()
-    dialogo.setWindowTitle('¡Oops!')
+    dialogo.setWindowTitle('Eliminar')
     dialogo.setWindowIcon(QIcon('imagenes/logx.jpg'))
     dialogo.setIcon(QMessageBox.Question)
     dialogo.setText(mensaje)

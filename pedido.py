@@ -8,6 +8,7 @@ from crear_producto import creacion_producto
 from pathlib import Path
 from modificacion_producto import Modificar
 from eliminar_productos import Eliminar
+from carrito_cosas import Carrito_ventana
 class Ventana_pedido(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -77,6 +78,7 @@ class Ventana_pedido(QMainWindow):
         self.bar.setMovable(False)
         self.perfil = QAction(QIcon('imagenes/user.png'), 'Perfil', self)
         self.carrito = QAction(QIcon('imagenes/carrito.png'), 'Carrito', self)
+        self.carrito.triggered.connect(self.ver_carrito)
         self.perfil.triggered.connect(self.encargadx)
         self.bar.addAction(self.perfil)
         self.bar.addAction(self.carrito)
@@ -97,6 +99,7 @@ class Ventana_pedido(QMainWindow):
         self.boton.setStyleSheet(self.disabled)
         self.boton.setEnabled(False)
         self.boton.setFont(QFont('Bahnschrift SemiLight SemiConde', 15))
+        self.boton.clicked.connect(self.anadir_carrito)
         self.boton.move(300,400)
 
         self.creacion = QPushButton('Crear producto', self)
@@ -193,3 +196,39 @@ class Ventana_pedido(QMainWindow):
     def eliminar_producto(self):
         self.eliminacion = Eliminar()
         self.eliminacion.show()
+
+    def ver_carrito(self):
+        self.carrito = Carrito_ventana()
+        self.carrito.show()
+
+    def anadir_carrito(self):
+        archivo2 = open(
+            'productos_tienda\\' + self.productos.currentText().replace(" ", "_").replace('\n', '') + '.txt')
+        lista1 = eval(archivo2.read())
+        archivo2.close()
+
+        if lista1[2] != str(0):
+            archivo = open('carrito.txt','a')
+            archivo2 = open('productos_tienda\\' + self.productos.currentText().replace(" ", "_").replace('\n', '') + '.txt')
+            lista = eval(archivo2.read())
+            archivo2.close()
+            archivo.write(self.productos.currentText().replace("\n","") + ' 1x ' + lista[3] + " Pesos\n")
+            archivo.close()
+
+        if lista1[2] != str(0):
+            archivo3 = open('productos_tienda\\' + self.productos.currentText().replace(" ", "_").replace('\n', '') + '.txt', 'w')
+            unidad_actualizada = int(lista1[2]) - 1
+            unidad_actualizada = str(unidad_actualizada)
+            lista1.pop(2)
+            lista1.insert(2, unidad_actualizada)
+            archivo3.write(str(lista1))
+            archivo2.close()
+
+        if int(lista1[2]) > 0:
+            mensaje = f' Precio de {self.productos.currentText()} {lista1[4].replace("_", " ")}\n {lista1[3]} pesos, {lista1[2]} unidad/es restantes'
+            self.precios.setText(mensaje)
+
+        if int(lista1[2]) == 0:
+            mensaje = f' No quedan existencias de {self.productos.currentText()} 0 unidad/es restantes'
+            self.precios.setText(mensaje)
+
