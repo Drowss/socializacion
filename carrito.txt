@@ -1,5 +1,3 @@
-sad 1x 2133 Pesos
-sad 1x 2133 Pesos
-sad 1x 2133 Pesos
-sad 1x 2133 Pesos
-sad 1x 2133 Pesos
+cerveza barata 1x 2000 Pesos
+Absolut vodka 1x 54000 Pesos
+Aguila Light 1x 2500 Pesos

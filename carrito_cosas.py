@@ -9,14 +9,13 @@ class Carrito_ventana(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Carrito')
-        self.layout = QVBoxLayout()
-        self.layout.setAlignment(Qt.AlignTop)
+        self.layout = QFormLayout()
         self.setStyleSheet("background-color:white;")
 
         self.setWindowIcon(QIcon("imagenes/logx.jpg"))
 
-        self.ancho = 700
-        self.alto = 1000
+        self.ancho = 500
+        self.alto = 700
 
         self.resize(self.ancho, self.alto)
 
@@ -33,12 +32,43 @@ class Carrito_ventana(QMainWindow):
         self.fondo.setPixmap(self.imagenFondo)
         self.fondo.setScaledContents(True)
         self.setCentralWidget(self.fondo)
+        self.setLayout(self.layout)
 
-        for producto_carrito in open('carrito.txt'):
-            item = QLabel(producto_carrito)
+        self.productos = []
+        self.botones = []
+        self.layout.setFieldGrowthPolicy(QFormLayout.AllNonFixedFieldsGrow)
+
+        for i, producto_carrito in enumerate(open('carrito.txt')):
+            item = QLabel(producto_carrito.strip())
             item.setStyleSheet("background-color:transparent; color:#fff0b1;")
             item.setFont(QFont("Bahnschrift SemiLight SemiConde", 15))
-            item.setFixedHeight(20)
-            self.layout.addWidget(item)
+
+            boton = QPushButton(icon=QIcon('imagenes/delete.png.png'))
+            boton.setFixedWidth(40)
+            boton.clicked.connect(lambda _, idx=i: self.delete(idx))
+
+            self.layout.addRow(item, boton)
+
+            self.productos.append(item)
+            self.botones.append(boton)
 
         self.fondo.setLayout(self.layout)
+
+    def delete(self, idx):
+        producto = self.productos[idx]
+        boton = self.botones[idx]
+
+        producto_text = producto.text()
+        with open('carrito.txt', 'r') as file:
+            lines = file.readlines()
+
+        with open('carrito.txt', 'w') as file:
+            eliminado = False
+            for line in lines:
+                if line.strip() == producto_text and not eliminado:
+                    eliminado = True
+                else:
+                    file.write(line)
+
+        producto.setParent(None)
+        boton.setParent(None)

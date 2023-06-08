@@ -202,17 +202,16 @@ class Ventana_pedido(QMainWindow):
         self.carrito.show()
 
     def anadir_carrito(self):
-        archivo2 = open(
-            'productos_tienda\\' + self.productos.currentText().replace(" ", "_").replace('\n', '') + '.txt')
+        archivo2 = open('productos_tienda\\' + self.productos.currentText().replace(" ", "_").replace('\n', '') + '.txt')
         lista1 = eval(archivo2.read())
         archivo2.close()
 
         if lista1[2] != str(0):
-            archivo = open('carrito.txt','a')
+            archivo = open('carrito.txt', 'a')
             archivo2 = open('productos_tienda\\' + self.productos.currentText().replace(" ", "_").replace('\n', '') + '.txt')
             lista = eval(archivo2.read())
             archivo2.close()
-            archivo.write(self.productos.currentText().replace("\n","") + ' 1x ' + lista[3] + " Pesos\n")
+            archivo.write(self.productos.currentText().replace("\n", "") + ' 1x ' + lista[3] + " Pesos\n")
             archivo.close()
 
         if lista1[2] != str(0):
