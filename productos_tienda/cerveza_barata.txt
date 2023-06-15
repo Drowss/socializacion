@@ -1,1 +1,0 @@
-['Cerveza', 'cerveza_barata', '6', '2000', '375_ml_(Media)']

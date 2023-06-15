@@ -1,4 +1,4 @@
 Absolut_vodka
-Aguila_Light
-cerveza_barata
-chirrinchi
+Aguardiente
+Aguardiente_sin_azucar
+Ron_viejo_de_caldas

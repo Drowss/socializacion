@@ -1,1 +1,1 @@
-['John_Cely', 'john31', 'john_cely@elpoli.edu.co', '1000525381', '3042915332', 'carrera_21_#23-15']
+['Juan_Trejos', 'trejitos', 'trejos@gmail.com', '1000727381', '300261734723', 'calle_72_#24-12']

@@ -1,1 +1,0 @@
-['Alcohol_tradicional', 'Aguila_Light', '11', '2500', '375_ml_(Media)']

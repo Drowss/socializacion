@@ -1,1 +1,0 @@
-['Alcohol_tradicional', 'chirrinchi', '6', '2000', '375_ml_(Media)']

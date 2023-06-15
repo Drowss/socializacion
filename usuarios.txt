@@ -1,3 +1,4 @@
 Esneider_Giraldo;carro123;esneider@elpoli.edu.co;1000636306;3043952778;carrera_21_#42-11
 Alejandro_Bedoya;alejo12;alejobedo@elpoli.edu.co;1000636271;3042716225;Calle_42_#42-53
 John_Cely;john31;john_cely@elpoli.edu.co;1000525381;3042915332;carrera_21_#23-15
+Juan_Trejos;trejitos;trejos@gmail.com;1000727381;300261734723;calle_72_#24-12
